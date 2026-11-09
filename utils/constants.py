@@ -18,7 +18,7 @@ chat_words = {
     "BSAAW": "Big Smile And A Wink",
     "BTW": "By The Way",
     "BWL": "Bursting With Laughter",
-    "CSL": "Can’t Stop Laughing",
+    "CSL": "Can't Stop Laughing",
     "CU": "See You",
     "CUL8R": "See You Later",
     "CYA": "See You",
@@ -41,7 +41,7 @@ chat_words = {
     "HBD": "Happy Birthday",
     "IC": "I See",
     "ICQ": "I Seek You",
-    "IDC": "I Don’t Care",
+    "IDC": "I Don't Care",
     "IDK": "I Don't Know",
     "IFYP": "I Feel Your Pain",
     "ILU": "I Love You",
@@ -115,5 +115,6 @@ chat_words = {
     "GG": "Good Game",
     "EZ": "Easy",
     "LMAO": "Laughing My A** Off",
-    "LOL": "Laughing Out Loud"
+    "LOL": "Laughing Out Loud",
+    "PLM": "Problem"
 }
