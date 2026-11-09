@@ -117,5 +117,6 @@ chat_words = {
     "LMAO": "Laughing My A** Off",
     "LOL": "Laughing Out Loud",
     "PLM": "Problem",
-    "UR": "Your"
+    "UR": "Your",
+    "DA": "The"
 }
