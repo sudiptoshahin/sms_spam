@@ -84,7 +84,7 @@ chat_words = {
     "TFW": "That Feeling When",
     "THX": "Thank You",
     "TIME": "Tears In My Eyes",
-    "TLDR": "Too Long, Didn’t Read",
+    "TLDR": "Too Long, Didn't Read",
     "TNTL": "Trying Not To Laugh",
     "TTFN": "Ta-Ta For Now!",
     "TTYL": "Talk To You Later",
@@ -116,5 +116,6 @@ chat_words = {
     "EZ": "Easy",
     "LMAO": "Laughing My A** Off",
     "LOL": "Laughing Out Loud",
-    "PLM": "Problem"
+    "PLM": "Problem",
+    "UR": "Your"
 }
