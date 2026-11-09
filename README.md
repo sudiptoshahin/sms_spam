@@ -12,3 +12,13 @@ chmod go-w env
 mkdir -p env/nltk_data
 chmod 700 env/nltk_data
 ```
+
+### Datasets
+
+* __processed_v1.csv:__
+
+>In this dataset i have remove all the stopwords
+
+* __processed_v2.csv:__
+
+>Without removing the stopwords
