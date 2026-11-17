@@ -13,7 +13,7 @@ UNK_TOKEN = "<unk>"
 PAD_IDX = 0
 UNK_IDX = 1
 
-TRAIN_SEQ_MAX_LEN = 79
+TRAIN_SEQ_MAX_LEN = 73
 
 
 # when using dataframes `tokens` columns
@@ -25,7 +25,7 @@ def text_to_indices(sentence, vocab):
     return numerical_sentences
 
 
-def convert_to_numerical_sentence(texts: list|str):
+def convert_to_numerical_sentence(texts: list | str):
     X_train_numerical_sentences = []
 
     if isinstance(texts, str):
@@ -36,8 +36,8 @@ def convert_to_numerical_sentence(texts: list|str):
             texts_indices = text_to_indices(sentence, VOCABULARY)
             X_train_numerical_sentences.append(texts_indices)
         return X_train_numerical_sentences
-    
-    
+
+
 def padded_numerical_sentences(numeric_sentences):
 
     if len(numeric_sentences) == 0:

@@ -1,6 +1,6 @@
-from fastapi import FastAPI, Response, status, HTTPException
+from fastapi import FastAPI
 from app import models
-from app.database import engine, Base
+from app.database import engine
 from app.routers import prediction
 
 
