@@ -9,10 +9,11 @@ router = APIRouter(prefix='/detect', tags=['Inference'])
 
 
 @router.post('/', status_code=status.HTTP_200_OK)
-async def detect_spam(
-    payload: schemas.DetectReqPayload,
-        db: Session = Depends(get_db)):
+async def detect_spam(payload: schemas.DetectReqPayload, db: Session = Depends(get_db)):
     message = str(payload.message)
     
-    res = await predict_sentiment_onnx(message, max_len=73)
+    res = await predict_sentiment_onnx(message)
+    
+    # save the report to db
+    
     return {'res': res, 'message': message}

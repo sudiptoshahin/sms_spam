@@ -1,12 +1,12 @@
 import onnxruntime
 import numpy as np
+import asyncio
+from functools import lru_cache
+import os
 from app.utils.text_preprocessing import text_preprocessing
 from app.utils.text_preparation import (
     convert_to_numerical_sentence, padded_numerical_sentences
 )
-import asyncio
-from functools import lru_cache
-import os
 
 
 # backend/app/artifacts/TextSpamDetect_v2.1.onnx
@@ -65,14 +65,19 @@ def _run_onnx_inference(text, max_len=73):
 
     # 9. Classification
     prediction = "ham" if ham_probability >= 0.5 else "spam"
+    
+    ham_prob = float(ham_probability * 100)
+    spam_prob = float(spam_probability * 100)
+    
+    # print(f"Ham: {ham_prob:.1f}  -  Spam: {spam_prob:.1f}")
 
     return {
         "text": text,
-        "ham_probability": ham_probability,
-        "spam_probability": spam_probability,
+        "ham_probability": f"{ham_prob:.1f}",
+        "spam_probability": f"{spam_prob:.1f}",
         "prediction": prediction
     }
 
-  
-async def predict_sentiment_onnx(text: str, max_len):
+
+async def predict_sentiment_onnx(text: str, max_len=73):
     return await asyncio.to_thread(_run_onnx_inference, text, max_len)
