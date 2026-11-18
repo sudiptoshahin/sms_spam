@@ -1,21 +1,9 @@
 ## A binary text classification Spam/Ham
 
-> Issue
-Newer NLTK versions refuse to install into a directory that is writable by group/others, or owned by another user, because a swapped file could be installed as trusted data. Your ./env folder (the venv) has permissions like 775, so NLTK blocked the download and returned False.
-
-__Solution__
-
-```
-ls -ld env
-chmod go-w env
-
-mkdir -p env/nltk_data
-chmod 700 env/nltk_data
-```
-
 ### Datasets
 
-* __processed_v1.csv:__
+* __LINK__: [Dataset](https://www.kaggle.com/datasets/uciml/sms-spam-collection-dataset)
+* __processed_v1.csv:__ In this dataset i've total `5562` messages and total __4815 ham__ and __747 spam__. Dataset is biased with __Ham__.
 
 >In this dataset i have remove all the stopwords
 
@@ -49,7 +37,7 @@ chmod 700 env/nltk_data
 
 ### Backend Setup
 
-* __cd backend__
+* __cd sms_spam/backend__
 
 * __Create the environment:__
 `python3 -m venv env` or `python -m venv env`
@@ -70,3 +58,25 @@ chmod 700 env/nltk_data
 * Then run `uvicorn app.main:app --reload`
 
 > NB: First time it will take time to download the `nltk_data` in `backend/env/` directory. After a few minuites when the required downloads are completed then the server will starting and listening on port.
+
+### Frontend Setup
+
+* __cd sms_spam/frontend__
+
+* `npm install`
+
+* __Then run `npm run dev`__
+
+### App Screenshots
+
+| | |
+|---|---|
+| ![alt text](screenshots/shot1.png) | ![alt text](screenshots/shot2.png) |
+
+## Model Evaluation
+
+* __Accuracy: 96.77%__
+* __Precision: 91.31%__
+* __Recall: 97.10%__
+* __F1 Score: 98.11%__
+* __ROC and AUC: 95.87%__
