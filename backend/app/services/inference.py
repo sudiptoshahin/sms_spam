@@ -69,8 +69,6 @@ def _run_onnx_inference(text, max_len=73):
     ham_prob = float(ham_probability * 100)
     spam_prob = float(spam_probability * 100)
     
-    # print(f"Ham: {ham_prob:.1f}  -  Spam: {spam_prob:.1f}")
-
     return {
         "text": text,
         "ham_probability": f"{ham_prob:.1f}",

@@ -27,3 +27,10 @@ class Report(BaseModel):
 class ReportList(BaseModel):
     reports: list[Report]
     total: int
+
+
+class ReportListResponse(BaseModel):
+    reports: ReportList
+    success: bool
+    code: int
+    message: str

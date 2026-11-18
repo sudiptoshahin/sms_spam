@@ -21,7 +21,7 @@ async def detect_spam(payload: schemas.DetectReqPayload, db: Session = Depends(g
     report = Report(
         label=res['prediction'],
         message=res['text'],
-        percentage=max(ham_prob, spam_prob),   # 0-100; drop "* 100" if you want 0-1
+        percentage=max(ham_prob, spam_prob),
     )
 
     try:

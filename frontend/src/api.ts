@@ -1,50 +1,41 @@
 import type { Prediction } from "./types";
+// const API_URL: string = import.meta.env.API_BASE_URL ?? "";
+const API_URL: string = import.meta.env.VITE_API_BASE_URL ?? "";
 
-const API_URL: string = import.meta.env.VITE_API_URL ?? "";
 
-const SPAM_WORDS = [
-  "free", "winner", "won", "prize", "claim", "urgent", "limited", "offer",
-  "click", "cash", "call now", "congratulations", "password", "verify",
-  "suspended", "£", "$", "guaranteed", "bonus", "selected", "http",
-];
-
-/** Simple keyword rules so the UI works before your model is connected. */
-function demoPredict(text: string): Prediction {
-  const lower = text.toLowerCase();
-  const hits = SPAM_WORDS.filter((w) => lower.includes(w));
-  const caps = (text.match(/[A-Z]{4,}/g) ?? []).length;
-  const bangs = Math.min((text.match(/!/g) ?? []).length, 3);
-  const digits = (text.match(/\d{4,}/g) ?? []).length;
-  const score = hits.length * 1.1 + caps * 0.8 + bangs * 0.5 + digits * 0.8 - 1.6;
-  const pSpam = 1 / (1 + Math.exp(-score));
-  const isSpam = pSpam >= 0.5;
-  return {
-    label: isSpam ? "spam" : "ham",
-    confidence: isSpam ? pSpam : 1 - pSpam,
-    words: hits,
-  };
-}
-
-/**
- * Calls your model. Expected response from POST {API_URL}:
- *   { "label": "spam" | "ham", "confidence": 0.97, "words": ["free"] }
- * "words" is optional.
- */
-export async function predict(text: string): Promise<Prediction> {
-  if (!API_URL) return demoPredict(text);
-
-  const res = await fetch(API_URL, {
+export async function predict(message: string): Promise<Prediction> {
+  console.log('____API_URL____', API_URL);
+  const res = await fetch(`${API_URL}/detect`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ message }),
   });
+
   if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
   const data = await res.json();
   return {
     label: String(data.label).toLowerCase() === "spam" ? "spam" : "ham",
-    confidence: Number(data.confidence),
-    words: Array.isArray(data.words) ? data.words : [],
+    confidence: Number(data.percentage),
+    words: Array.isArray(data.message) ? data.message : [],
   };
 }
 
-export const isDemoMode = !API_URL;
+
+export async function fetchReport(): Promise<ReportList> {
+
+  try {
+    const res = await fetch(`${API_URL}/reports`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!res.ok) throw new Error('Something went wrong!');
+    const data = await res.json();
+    return data.reports;
+  } catch (err) {
+    console.error('Something went wrong!\n', err);
+  }
+
+  return [] as ReportList
+}
+

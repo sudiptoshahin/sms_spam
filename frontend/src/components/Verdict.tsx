@@ -1,9 +1,11 @@
+import { Bars } from "react-loader-spinner";
 import type { Prediction } from "../types";
 
 interface Props {
   result: Prediction | null;
   text: string;
   error: string | null;
+  loading?: boolean; // new
 }
 
 function Highlighted({ text, words }: { text: string; words: string[] }) {
@@ -16,16 +18,30 @@ function Highlighted({ text, words }: { text: string; words: string[] }) {
   );
 }
 
-export default function Verdict({ result, text, error }: Props) {
+export default function Verdict({ result, text, error, loading = false }: Props) {
   return (
-    <section className="panel verdict" aria-live="polite">
-      {error && <p className="empty">{error}</p>}
-      {!error && !result && (
+    <section className="panel verdict" aria-live="polite" aria-busy={loading}>
+      {loading && (
+        <Bars
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="bars-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      )}
+
+      {!loading && error && <p className="empty">{error}</p>}
+
+      {!loading && !error && !result && (
         <p className="empty">Your verdict will appear here after you check a message.</p>
       )}
-      {!error && result && (() => {
+
+      {!loading && !error && result && (() => {
         const isSpam = result.label === "spam";
-        const pct = Math.round(result.confidence * 100);
+        const pct = Math.round(result.confidence);
         const spamPct = isSpam ? pct : 100 - pct;
         return (
           <>
