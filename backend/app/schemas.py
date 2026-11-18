@@ -1,22 +1,29 @@
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import Optional
 
 
-# {'text': 'Hello how are you',
-#  'ham_probability': 0.9998233630390139,
-#  'spam_probability': 0.0001766369609861318,
-#  'prediction': 'ham'}
-
-
-class DetectResponse(BaseModel):
+class DetectionResult(BaseModel):
     text: str
-    ham_probability: float
-    spam_probability: float
+    ham_probability: float | str
+    spam_probability: float | str
     prediction: str
 
 class DetectReqPayload(BaseModel):
     message: str
     max_len: Optional[int]
 
+
+class Report(BaseModel):
+    model_config = ConfigDict(from_attributes=True)  # lets it read SQLAlchemy objects
+
+    id: str
+    label: str
+    message: str
+    percentage: float
+    created_at: datetime
+
+class ReportList(BaseModel):
+    reports: list[Report]
+    total: int
