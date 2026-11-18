@@ -3,32 +3,51 @@ import re
 import string
 import nltk
 import os
+from pathlib import Path
 from app.utils.chatwords import chat_words_dict
-from nltk.util import ngrams
-from nltk.corpus import words, stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem.porter import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 from nltk.metrics.distance import jaccard_distance
+from nltk.util import ngrams
+from nltk.corpus import words, stopwords
 
-NLTK_DIR = os.path.abspath("../../env/nltk_data")
-nltk.data.path = [NLTK_DIR]
-# Tokenizer
-nltk.download('punkt', download_dir=NLTK_DIR, raise_on_error=True, quiet=True)
-nltk.download(
-    'punkt_tab', download_dir=NLTK_DIR, raise_on_error=True, quiet=True
+# NLTK_DIR = os.path.abspath("../../env/nltk_data")
+
+BACKEND_DIR = Path(__file__).resolve().parents[2]
+NLTK_DIR = Path(
+    os.getenv('NLTK_DATA', BACKEND_DIR / "env" / "nltk_data")
 )
-# Correct spelling
-nltk.download('words', download_dir=NLTK_DIR, raise_on_error=True, quiet=True)
-# stopword removal
-nltk.download(
-    'stopwords', download_dir=NLTK_DIR, raise_on_error=True, quiet=True
-)
-# download wordnet
-nltk.download(
-    'wordnet', download_dir=NLTK_DIR, raise_on_error=True, quiet=True
-)
-nltk.data.path.insert(0, NLTK_DIR)
+print(f'_________NLTK_DIR_______{NLTK_DIR}')
+NLTK_DIR.mkdir(parents=True, exist_ok=True)
+nltk.data.path[:] = [str(NLTK_DIR)]
+
+RESOURCES = [
+    ("tokenizers/punkt", "punkt"),
+    ("tokenizers/punkt_tab", "punkt_tab"),
+    ("corpora/words", "words"),
+    ("corpora/stopwords", "stopwords"),
+    ("corpora/wordnet", "wordnet")
+]
+
+def ensure_nltk_data() -> None:
+    missing = []
+    for path, package in RESOURCES:
+        try:
+            nltk.data.find(path)
+        except LookupError:
+            ok = nltk.download(package, download_dir=str(NLTK_DIR), quiet=False)
+            if not ok:
+                missing.append(package)
+    if missing:
+        raise RuntimeError(
+            f"NLTK data missing: {missing}. Could not download them "
+            f"(no network?). Copy the 'nltk_data' folder from a working "
+            f"machine into: {NLTK_DIR}"
+        )
+
+
+ensure_nltk_data()
 
 STOP_WORDS = set(stopwords.words('english'))
 
