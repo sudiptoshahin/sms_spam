@@ -12,7 +12,7 @@ class DetectionResult(BaseModel):
 
 class DetectReqPayload(BaseModel):
     message: str
-    max_len: Optional[int]
+    # max_len: Optional[int]
 
 
 class Report(BaseModel):
